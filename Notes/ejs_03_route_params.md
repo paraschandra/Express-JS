@@ -1,3 +1,22 @@
+## Lecture_03: Route Params
+
+Route parameters in Express.js are used to capture dynamic values from the URL. They allow us to define routes that can handle multiple values dynamically.
+
+**Syntax**<br/>
+Route parameters are defined using a colon (:) before the parameter name.
+```js
+const express = require('express');
+const app = express();
+
+app.get('/user/:id', (req, res) => {
+    res.send(`User ID: ${req.params.id}`);
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+```
+
+`Example:`
+```js
 import express from "express";
 
 const app = express();
@@ -18,7 +37,7 @@ app.get("/api/users", (req, res) => {
     res.send(users);
 });
 
-// request params
+// route params
 app.get("/api/users/:id", (req, res) => {
     console.log(req.params);
     const parsedId = parseInt(req.params.id);
@@ -41,3 +60,13 @@ app.get("/api/products", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Running on Port ${PORT}`);
 })
+```
+
+### Accessing Multiple Route Params
+You can access route parameters using req.params.
+```js
+app.get('/user/:id/book/:bookId', (req, res) => {
+    const { id, bookId } = req.params;
+    res.send(`User ID: ${id}, Book ID: ${bookId}`);
+});
+```
