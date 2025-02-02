@@ -14,8 +14,15 @@ app.get("/", (req, res) => {
     res.status(201).send({msg: 'Hello, Express!'});
 });
 
+// query params
 app.get("/api/users", (req, res) => {
-    res.send(users);
+    const {query: {filter, value},} = req;
+
+    if(!filter && !value) return res.send(users);
+    if(filter && value) return res.send(
+        users.filter((user) => user[filter].includes(value))
+    );
+    return res.send(users);
 });
 
 // request params
