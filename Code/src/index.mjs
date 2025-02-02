@@ -2,6 +2,8 @@ import express from "express";
 
 const app = express();
 
+app.use(express.json()); // middleware
+
 const PORT = process.env.PORT || 3000;
 
 const users = [
@@ -24,6 +26,17 @@ app.get("/api/users", (req, res) => {
     );
     return res.send(users);
 });
+
+// post req
+app.post("/api/users", (req, res) => {
+    const {body} = req;
+    const newUser = {
+        id: users[users.length-1].id+1,
+        ...body
+    };
+    users.push(newUser);
+    return res.status(201).send(newUser);
+})
 
 // request params
 app.get("/api/users/:id", (req, res) => {
