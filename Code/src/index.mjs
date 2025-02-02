@@ -50,6 +50,20 @@ app.get("/api/users/:id", (req, res) => {
     return res.send(user);
 });
 
+// put request
+app.put("/api/users/:id", (req, res) => {
+    const { body, params: { id } } = req;
+
+    const parsedId = parseInt(id);
+    if(isNaN(parsedId)) return res.sendStatus(400);
+
+    const userIdx = users.findIndex((user) => user.id === parsedId);
+    if(userIdx === -1) return res.sendStatus(404);
+
+    users[userIdx] = { id: parsedId, ...body };
+    return res.sendStatus(200);
+});
+
 app.get("/api/products", (req, res) => {
     res.send([
         {id: 1, product: 'soap'},
@@ -57,6 +71,7 @@ app.get("/api/products", (req, res) => {
         {id: 3, product: 'perfume'},
     ]);
 });
+
 
 app.listen(PORT, () => {
     console.log(`Running on Port ${PORT}`);
